@@ -1,5 +1,6 @@
 import { FriendsService } from './service/friends.service';
 import { AuthService } from './service/auth.service';
+import { UsersService} from './service/users.service'
 import { Component } from '@angular/core';
 
 @Component({
@@ -9,11 +10,14 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   isLoggedIn: boolean;
-  constructor(private authService: AuthService, private friends: FriendsService){
+  name: string;
+  friendsList: any[];
+  constructor(private authService: AuthService, private friends: FriendsService, private users: UsersService){
     this.isLoggedIn = authService.isLoggedIn();
     console.log(this.isLoggedIn);
     if (this.isLoggedIn) {
-      this.loadFriends()
+      this.loadFriends();
+      this.loadUser();
     }
   }
 
@@ -22,10 +26,21 @@ export class AppComponent {
   }
 
   private loadFriends(){
-    this.friends.getFriends(this.authService.getToken()).subscribe(data => console.log(data))
+    this.friends.getFriends(this.authService.getToken()).subscribe((data : any) => {
+      console.log(data.response);
+      this.friendsList = data.response.items;
+    })
+  }
+
+  private loadUser(){
+    this.users.getUser(this.authService.getToken()).subscribe((data : any) => {
+      console.log(data.response[0]);
+      this.name = data.response[0].first_name;
+    })
   }
 
   public logout(){
     this.authService.logOut();
+    this.isLoggedIn = this.authService.isLoggedIn();
   }
 }
