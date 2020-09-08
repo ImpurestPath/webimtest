@@ -10,6 +10,6 @@ export class UsersService {
 
 
   getUser(token){
-    return this.http.get('https://api.vk.com/method/users.get?v=5.122&access_token=' + token)
+    return this.http.jsonp('https://api.vk.com/method/users.get?v=5.122&access_token=' + token,'callback')
   }
 }

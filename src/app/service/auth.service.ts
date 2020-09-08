@@ -26,6 +26,7 @@ export class AuthService {
     this.oauthService.loginUrl = 'https://oauth.vk.com/authorize';
     console.log(window.location.origin);
     this.oauthService.redirectUri = "https://impurestpath.github.io/webimtest/index.html";
+    // this.oauthService.redirectUri = window.location.origin + "/index.html";
     this.oauthService.clientId = "7585171";
     this.oauthService.scope = "friends";
     this.oauthService.responseType = "token";
